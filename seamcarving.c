@@ -4,9 +4,6 @@
 #include <string.h>
 #include <math.h>
 #include "c_img.h"
-#include "c_img.h"
-#include <stdio.h>
-#include <math.h>
 
 int delta(struct rgb_img *im, int y, int x, int dy, int dx){
     if(dx != 0){
