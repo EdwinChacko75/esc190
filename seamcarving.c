@@ -70,10 +70,10 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
     int i = 0;int j=0;
     int width = grad->width;
     int height = grad->height; // dosent matter
-    for(i; i < width; i++){
-        for(j; j < height;j++){
+    for(i; i < height; i++){
+        for(j; j < width;j++){
             if(i == 0 ){
-                (*best_arr)[j] = grad->raster[j];
+                (*best_arr)[j] = get_pixel(grad, i, j, 0);
             }else{
                 double min = -1.0; 
                 for(int k = -1; k<2;k++){
@@ -88,11 +88,8 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
                         min = test;
                     }
                 }
-                (*best_arr)[i*width+j] = min;
+                (*best_arr)[i*width+j] = min + (double)get_pixel(grad, i, j, 0);
             }
         }
     }
 }
-
-
-
