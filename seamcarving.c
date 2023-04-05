@@ -64,5 +64,35 @@ void calc_energy(struct rgb_img *im, struct rgb_img **grad){
 
     }
 }
+void dynamic_seam(struct rgb_img *grad, double **best_arr){
+    *best_arr = (double*)malloc(sizeof(double) * grad->height*grad->width);
+
+    int i = 0;int j=0;
+    int width = grad->width;
+    int height = grad->height; // dosent matter
+    for(i; i < width; i++){
+        for(j; j < height;j++){
+            if(i == 0 ){
+                (*best_arr)[j] = grad->raster[j];
+            }else{
+                double min = -1.0; 
+                for(int k = -1; k<2;k++){
+                    double test;
+                    if (j == 0 && k==-1 || j == width-1 && k==1){
+                        continue;
+                    }
+                    else{
+                        test = grad->raster[(i - 1) * width + j+k];
+                    }
+                    if(min>test || min == -1.0){
+                        min = test;
+                    }
+                }
+                (*best_arr)[i*width+j] = min;
+            }
+        }
+    }
+}
+
 
 
