@@ -82,7 +82,7 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
                         continue;
                     }
                     else{
-                        test = grad->raster[(i - 1) * width + j+k];
+                        test = *best_arr[(i - 1) * width + j+k];
                     }
                     if(min>test || min == -1.0){
                         min = test;
