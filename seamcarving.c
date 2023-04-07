@@ -71,12 +71,9 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
     int height = grad->height; // dosent matter
 
     for(i; i < height; i++){
-        //printf("%d\n",i);
-
         for(j=0; j < width;j++){
             if(i == 0 ){
                 *(*best_arr+j) = get_pixel(grad, i, j, 0);
-                //printf("i,j %d,%d\n", i,j);
             }else if (i!=0){
                 double min = -1.0; 
 
