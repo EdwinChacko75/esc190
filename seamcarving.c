@@ -97,7 +97,7 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
 void recover_path(double *best, int height, int width, int **path){
     *path = (int*)malloc(sizeof(int) * height);
     
-    for(int i = height - 2; i>=0;i--){
+    for(int i = height - 1; i>=0;i--){
         int min = -1;
         int min_i;
         for(int j = 0; j < width; j++){
