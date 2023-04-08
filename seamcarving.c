@@ -111,3 +111,18 @@ void recover_path(double *best, int height, int width, int **path){
         (*path)[i] = min_i;
     }
 }
+
+void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path){
+    int width = src->width-1;
+    *dest = (rgb_img*)malloc(sizeof(rgb_img));
+    (*dest)->width = width;
+    (*dest)->height = src->height;
+    (*dest)->raster = (uint8_t*)malloc(sizeof(int) * (src->height) * (width));
+    for(int i = 0; i<src->height;i++){
+        for(int j = 0; j< src->width;j++){
+            if(j!=path[i]){
+                (*dest)->raster[j+ i*width] = src->raster[j+i*src->width];
+            }
+        }
+    }
+}
