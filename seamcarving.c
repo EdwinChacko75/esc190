@@ -96,17 +96,19 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
 }
 void recover_path(double *best, int height, int width, int **path){
     *path = (int*)malloc(sizeof(int) * height);
-    
+    int prevmin_i=0;
     for(int i = height - 1; i>=0;i--){
         int min = -1;
-        int min_i;
+        int min_i = 0;
         for(int j = 0; j < width; j++){
-            //printf("y: %d x: %d\n",i,j);
             int test = best[j +i*(width)];
-            if(min > test || min == -1){
+            if((min > test || min == -1) && (prevmin_i+1==j || prevmin_i-1 ==j || prevmin_i==j)){
                 min = test;
                 min_i = j;
             }
+        }
+        if(i==0){
+            prevmin_i = min_i;
         }
         (*path)[i] = min_i;
     }
@@ -115,9 +117,9 @@ void recover_path(double *best, int height, int width, int **path){
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path){
     create_img(dest, src->height, (src->width)- 1);
 
-    for(int i = 0; i < src->height;i++){
-        for(int j = 0; j< src->width;j++){
-            if(j!=path[i]){
+    for(int i = 0; i < (*dest)->height;i++){
+        for(int j = 0; j< (*dest)->width;j++){
+            if(j!=path[j]){
                 set_pixel(*dest, i, j, get_pixel(src, i, j, 0), get_pixel(src, i, j, 1), get_pixel(src, i, j, 0));
             }
         }
