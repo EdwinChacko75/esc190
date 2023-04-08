@@ -101,7 +101,8 @@ void recover_path(double *best, int height, int width, int **path){
         int min = -1;
         int min_i;
         for(int j = 0; j < width; j++){
-            int test = best[j +i*(width+1)];
+            //printf("y: %d x: %d\n",i,j);
+            int test = best[j +i*(width)];
             if(min > test || min == -1){
                 min = test;
                 min_i = j;
