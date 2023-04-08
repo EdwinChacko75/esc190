@@ -97,30 +97,60 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr){
 void recover_path(double *best, int height, int width, int **path){
     *path = (int*)malloc(sizeof(int) * height);
     int prevmin_i=0;
-
+    int min_i;
+    int min = -1;
     for(int i = height - 1; i>=0;i--){
-        int min = -1;
-        int min_i = 0;
-        
-        for(int j = 0; j < width; j++){
+        if (i == height - 1){
+           for(int j = 0; j < width; j++){
             int test = best[j +i*(width)];
-            if (min == test){
-                if(abs(prevmin_i-j)<abs(min_i-j)){
-                    prevmin_i = min_i;
-                    min_i = j;
-                }
-            }
-            if((min > test || min == -1)){
+            if((min > test) ||min == -1){
                 min = test;
-                prevmin_i = min_i;
                 min_i = j;
+                }
+           }
+        (*path)[i] = min_i;
+        continue;
+          
+        }
+        prevmin_i = min_i;
+        int t0 = best[prevmin_i +i*(width)];
+        int tl;
+        int tr;
+        if (min_i ==0){
+            tr = best[prevmin_i+1 +i*(width)];
+            if(t0>tr){
+                min_i++;
+                (*path)[i] = min_i;
+            } else{
+                (*path)[i] = min_i;
+            }
+        }else if (min_i==width-1){
+            tl = best[prevmin_i-1 +i*(width)];
+            if(t0>tl){
+                min_i--;
+                (*path)[i] = min_i;
+            } else{
+                (*path)[i] = min_i;
+            }
+        }else{
+            tr = best[prevmin_i+1 +i*(width)];            
+            tl = best[prevmin_i-1 +i*(width)];
+            if(tr>tl){
+                if(tl<t0){
+                    min_i--;
+                    (*path)[i] = min_i;
+                }
+            } if (tr<tl){
+                if(tl<t0){
+                    min_i++;
+                    (*path)[i] = min_i;
+                }
+            }if(t0<tl || t0<tr){
+                (*path)[i] = min_i;
             }
         }
-        if(i==0){
-            prevmin_i = min_i;
-        }
-        (*path)[i] = min_i;
     }
+    
 }
 
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path){
