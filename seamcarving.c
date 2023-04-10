@@ -113,7 +113,7 @@ void recover_path(double *best, int height, int width, int **path){
         
         min_i = start;
         for (int i = start; i < end; i++) {
-            if (best[get_index(j, i, width)] < best[get_index(j, min_i, width)]) {
+            if (best[j*width + i] < best[j*width + min_i]) {
                 min_i = i;
             }
         }
