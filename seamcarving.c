@@ -123,12 +123,17 @@ void recover_path(double *best, int height, int width, int **path){
 
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path){
     create_img(dest, src->height, (src->width)- 1);
-
+    int rem = 0;
     for(int i = 0; i < (*dest)->height;i++){
-        for(int j = 0; j< (*dest)->width;j++){
-            if(j!=path[j]){
-                set_pixel(*dest, i, j, get_pixel(src, i, j, 0), get_pixel(src, i, j, 1), get_pixel(src, i, j, 0));
+        rem = 0;
+        for(int j = 0; j<= (*dest)->width;j++){
+            if(j==path[i]){
+                rem++;
+            }else{
+                set_pixel(*dest, i, j-rem, get_pixel(src, i, j, 0), get_pixel(src, i, j, 1), get_pixel(src, i, j, 2));
+
             }
+
         }
     }
 }
